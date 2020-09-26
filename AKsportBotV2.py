@@ -1,3 +1,4 @@
+import os
 import time
 
 import config
@@ -18,10 +19,11 @@ bot = Bot(token=config.API_TOKEN)
 dp = Dispatcher(bot)
 
 
-'''@dp.message_handler(commands=['start'])
-async def hello_func(message: types.Message):
-    await bot.send_message(message.from_user.id, 'Привет!\nНачнем зарабатывать?', reply_markup=kb.greet_kb)'''
-
+@dp.message_handler(commands=['update'])
+async def del_func(message: types.Message):
+    await bot.send_message(message.from_user.id, 'Обновляю данные..', reply_markup=kb.greet_kb)
+    path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'games.csv')
+    os.remove(path)
 
 async def scan(waiting_for):
     await bot.send_message(894140712, 'Начинаю сканирование\nЕсли что-то найду - дам знать.')
@@ -36,11 +38,11 @@ async def scan(waiting_for):
 if __name__ == '__main__':
     try:
         loop = asyncio.get_event_loop()
-        loop.create_task(scan(5))
+        loop.create_task(scan(30))
         executor.start_polling(dp, skip_updates=True)
     except:
-        time.sleep(5)
+        time.sleep(30)
         print('Попробуем еще раз')
         loop = asyncio.get_event_loop()
-        loop.create_task(scan(5))
+        loop.create_task(scan(30))
         executor.start_polling(dp, skip_updates=True)
