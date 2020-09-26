@@ -34,7 +34,12 @@ async def scan(waiting_for):
 # raise asyncio.TimeoutError from None
 # asyncio.exceptions.TimeoutError
 if __name__ == '__main__':
-    loop = asyncio.get_event_loop()
-    loop.create_task(scan(30))
-    executor.start_polling(dp, skip_updates=True)
-
+    try:
+        loop = asyncio.get_event_loop()
+        loop.create_task(scan(30))
+        executor.start_polling(dp, skip_updates=True)
+    except:
+        time.sleep(30)
+        loop = asyncio.get_event_loop()
+        loop.create_task(scan(30))
+        executor.start_polling(dp, skip_updates=True)
