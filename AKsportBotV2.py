@@ -36,10 +36,11 @@ async def scan(waiting_for):
 if __name__ == '__main__':
     try:
         loop = asyncio.get_event_loop()
-        loop.create_task(scan(30))
+        loop.create_task(scan(5))
         executor.start_polling(dp, skip_updates=True)
     except:
-        time.sleep(30)
+        time.sleep(5)
+        print('Попробуем еще раз')
         loop = asyncio.get_event_loop()
-        loop.create_task(scan(30))
+        loop.create_task(scan(5))
         executor.start_polling(dp, skip_updates=True)

@@ -137,9 +137,6 @@ def start():
         else:
             pass
 
-
-
-
     except FileNotFoundError:
         print('Формирую расписание...')
         a1 = get_data_for_csv(get_html(URL1))
