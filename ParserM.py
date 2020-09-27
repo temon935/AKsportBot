@@ -137,6 +137,7 @@ def start():
             return stroka
         else:
             pass
+            # return 'Тестовый результат'
 
     except FileNotFoundError:
         print('Формирую расписание...')

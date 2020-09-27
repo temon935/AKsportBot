@@ -1,4 +1,5 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
-btnHello = KeyboardButton('Погнали')
-greet_kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).add(btnHello)
+btnUpd = KeyboardButton('/del')
+btnStart = KeyboardButton('/search')
+greet_kb = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2).add(btnUpd, btnStart)
