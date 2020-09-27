@@ -41,9 +41,9 @@ if __name__ == '__main__':
         loop.create_task(scan(30))
         executor.start_polling(dp, skip_updates=True)
     except TimeoutError:
+        bot.send_message(894140712, 'ЯСТРЕБ СБИТ!!!11\nКОД КРАСНЫЙ!')
+        bot.send_message(894140712, 'ПОВТОРЯЮ, ЯСТРЕБ СБИТ!!!11\nКОД КРАСНЫЙ!\nКАК СЛЫШНО, ПРИЕМ!')
         time.sleep(30)
-        await bot.send_message(894140712, 'ЯСТРЕБ СБИТ!!!11\nКОД КРАСНЫЙ!')
-        await bot.send_message(894140712, 'ПОВТОРЯЮ, ЯСТРЕБ СБИТ!!!11\nКОД КРАСНЫЙ!\nКАК СЛЫШНО, ПРИЕМ!')
         loop = asyncio.get_event_loop()
         loop.create_task(scan(30))
         executor.start_polling(dp, skip_updates=True)
