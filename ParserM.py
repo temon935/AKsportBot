@@ -27,8 +27,12 @@ def get_live_data(html):
         for i in range(len(lig_events)):
             lig_event = soup.find_all('a', class_='event-info-label')[i].get_text(strip=True)
             if lig_event:
-                team1 = lig_event.split(' - ')[0]
-                team2 = lig_event.split(' - ')[1]
+                try:
+                    team1 = lig_event.split(' - ')[0]
+                    team2 = lig_event.split(' - ')[1]
+                except:
+                    team1 = lig_event.split(' @ ')[0]
+                    team2 = lig_event.split(' @ ')[1]
                 match_live_result = soup.find_all('div', class_='event-info link')[i].find_next('div', class_='result red').get_text(strip=True)
                 scores = match_live_result.split('(')[0]
                 score_team1 = int(scores.split(':')[0])
@@ -65,7 +69,7 @@ def get_live_data(html):
 def live_data_analysis(results):
     interesting_results = []
     for i in results:
-        if i['Текущая разница'] >= 5 and i['Текущая четверть'] >= 3 and i['Текущая разница'] <= 120:
+        if i['Текущая разница'] >= 5 and i['Текущая четверть'] == 3 and i['Текущая разница'] <= 12:
             interesting_results.append(i)
     return interesting_results
 
@@ -143,6 +147,5 @@ def start():
         print('Формирую расписание...')
         a1 = get_data_for_csv(get_html(URL1))
         save_file(a1, FILE)
-
 
 
