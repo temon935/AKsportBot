@@ -72,6 +72,7 @@ async def scan(waiting_for):
                 await bot.send_message(894140712, parser_result, disable_notification=True)
                 game_already_showed = game
                 await asyncio.sleep(waiting_for)
+
                 # break
         else:
             await asyncio.sleep(waiting_for)
