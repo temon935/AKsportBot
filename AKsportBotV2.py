@@ -6,8 +6,6 @@ import logging
 import asyncio
 import ParserM
 import keyboard as kb
-from datetime import datetime
-
 from aiogram import Bot, Dispatcher, executor, types
 
 
@@ -20,20 +18,27 @@ dp = Dispatcher(bot)
 
 
 @dp.message_handler(commands=['start'])
-async def any_msg(message):
+async def any_msg(message: types.Message):
     await bot.send_message(message.chat.id, "Чего изволите?", reply_markup=kb.greet_kb)
 
 
-@dp.message_handler(commands=['del'])
-async def del_func(message: types.Message):
-    await bot.send_message(message.from_user.id, 'Удаляю CSV файл..', reply_markup=kb.greet_kb)
+@dp.callback_query_handler(lambda c: c.data)
+async def callback_btn1(callback_query: types.CallbackQuery):
+    await bot.answer_callback_query(callback_query.id)
+    if callback_query.data == '1':
+        await start_scan()
+    elif callback_query.data == '2':
+        await del_csv()
+
+
+async def del_csv():
+    await bot.send_message(894140712, 'Удаляю CSV файл..')
     path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'games.csv')
     os.remove(path)
-    await bot.send_message(message.from_user.id, 'Для добавления новых данных\nНажмите search', reply_markup=kb.greet_kb)
+    await bot.send_message(894140712, 'Для добавления новых данных\nНажмите кнопку "Сканирование"')
 
 
-@dp.message_handler(commands=['search'])
-async def main(message: types.Message):
+async def start_scan():
     try:
         loop = asyncio.get_event_loop()
         loop.create_task(scan(30))
@@ -49,13 +54,13 @@ async def main(message: types.Message):
 async def scan(waiting_for):
     await bot.send_message(894140712, 'Начинаю сканирование\nЕсли что-то найду - дам знать.')
     while True:
-        scan = ParserM.start()
-        if scan:
-            await bot.send_message(894140712, scan, disable_notification=True)
+        parser_result = ParserM.start()
+        if parser_result:
+            await bot.send_message(894140712, parser_result, disable_notification=True)
             break
         else:
             await asyncio.sleep(waiting_for)
-# raise asyncio.TimeoutError from None
-# asyncio.exceptions.TimeoutError
+
+
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)

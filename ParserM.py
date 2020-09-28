@@ -130,8 +130,6 @@ def file_work(interesting_results):
             pass
 
 
-
-
 def start():
     try:
         a = get_live_data(get_html(URL2))
