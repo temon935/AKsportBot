@@ -40,6 +40,7 @@ async def show_csv():
             show = str(row['Команда 1']) + ' - ' + str(row['Команда 2']) + '\n' + str(row['Кэф 1'])[1:] + '  vs  ' + str(row['Кэф 2'])[1:] + '\n' + str(row['Время'])
             await bot.send_message(894140712, show)
 
+
 async def del_csv():
     await bot.send_message(894140712, 'Удаляю CSV файл..')
     path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'games.csv')
@@ -62,11 +63,15 @@ async def start_scan():
 
 async def scan(waiting_for):
     await bot.send_message(894140712, 'Начинаю сканирование\nЕсли что-то найду - дам знать.')
+    game_already_showed = ''
     while True:
         parser_result = ParserM.start()
-        if parser_result:
+        game = parser_result.split('Ф')[0]
+        if parser_result and game != game_already_showed:
             await bot.send_message(894140712, parser_result, disable_notification=True)
-            break
+            game_already_showed = game
+            await asyncio.sleep(waiting_for)
+            # break
         else:
             await asyncio.sleep(waiting_for)
 

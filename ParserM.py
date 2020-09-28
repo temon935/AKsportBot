@@ -5,8 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 
 URL1 = 'https://www.marathonbet.ru/su/betting/6?periodGroupAllEvents=12'
-URL2 = 'https://www.marathonbet.ru/su/liveresults.htm?form_name=form&sportMenuMinimized=true&1897129037=on&submit=%D0' \
-       '%9F%D0%BE%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D1%8C '
+URL2 = 'https://www.marathonbet.ru/su/liveresults.htm?form_name=form&sportMenuMinimized=true&1897129037=on&submit=%D0%9F%D0%BE%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D1%8C '
 HEADERS = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
                          ' AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36',
            'accept': '*/*'}
@@ -139,11 +138,12 @@ def start():
             return stroka
         else:
             pass
-            # return 'Тестовый результат'
+            # return 'Матч: Команда 1 - Команда 2\nФаворит'
 
     except FileNotFoundError:
         print('Формирую расписание...')
         a1 = get_data_for_csv(get_html(URL1))
         save_file(a1, FILE)
 
-
+    except ValueError:
+        return 'Нет баскетбольных матчей'
