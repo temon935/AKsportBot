@@ -1,6 +1,6 @@
 import os
 import time
-
+import csv
 import config
 import logging
 import asyncio
@@ -29,7 +29,16 @@ async def callback_btn1(callback_query: types.CallbackQuery):
         await start_scan()
     elif callback_query.data == '2':
         await del_csv()
+    elif callback_query.data == '3':
+        await show_csv()
 
+
+async def show_csv():
+    with open('games.csv') as f:
+        reader = csv.DictReader(f, delimiter=';')
+        for row in reader:
+            show = str(row['Команда 1']) + ' - ' + str(row['Команда 2']) + '\n' + str(row['Кэф 1'])[1:] + '  vs  ' + str(row['Кэф 2'])[1:] + '\n' + str(row['Время'])
+            await bot.send_message(894140712, show)
 
 async def del_csv():
     await bot.send_message(894140712, 'Удаляю CSV файл..')
