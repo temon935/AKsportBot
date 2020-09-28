@@ -66,12 +66,13 @@ async def scan(waiting_for):
     game_already_showed = ''
     while True:
         parser_result = ParserM.start()
-        game = parser_result.split('Ф')[0]
-        if parser_result and game != game_already_showed:
-            await bot.send_message(894140712, parser_result, disable_notification=True)
-            game_already_showed = game
-            await asyncio.sleep(waiting_for)
-            # break
+        if parser_result:
+            game = parser_result.split('Ф')[0]
+            if game != game_already_showed:
+                await bot.send_message(894140712, parser_result, disable_notification=True)
+                game_already_showed = game
+                await asyncio.sleep(waiting_for)
+                # break
         else:
             await asyncio.sleep(waiting_for)
 
