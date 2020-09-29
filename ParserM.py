@@ -79,15 +79,18 @@ def get_data_for_csv(html):
     events_list = []
     for event in events_containers:
         kfs = event.find_all('span', class_='selection-link active-selection')
-        if float(kfs[0].text) < 1.22 or float(kfs[1].text) < 1.22:
-            events_list.append({
+        try:
+            if float(kfs[0].text) < 1.22 or float(kfs[1].text) < 1.22:
+                events_list.append({
                 'Команда 1': event.find_all('a', class_='member-link')[0].find_next('span').get_text(),
                 'Команда 2': event.find_all('a', class_='member-link')[1].find_next('span').get_text(),
                 'Кэф 1': f"к{kfs[0].text}",
                 'Кэф 2': f"к{kfs[1].text}",
                 'Время': event.find_all('td', class_='date')[0].get_text(strip=True)
-            })
-        else:
+                })
+            else:
+                pass
+        except IndexError:
             pass
     return events_list
 
@@ -147,3 +150,4 @@ def start():
 
     except ValueError:
         return 'Нет баскетбольных матчей'
+
