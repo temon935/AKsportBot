@@ -150,4 +150,3 @@ def start():
 
     except ValueError:
         return 'Нет баскетбольных матчей'
-
