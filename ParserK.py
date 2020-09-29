@@ -4,7 +4,7 @@ import time
 import requests
 from bs4 import BeautifulSoup
 
-URL = 'https://www.fonbet.ru/live/basketball/'
+URL = 'https://www.marathonbet.ru/su/live/45356'
 HEADERS = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
                          ' AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36',
            'accept': '*/*'}
@@ -19,11 +19,15 @@ def get_html(url, params=None):
 
 def get_live_data(html):
     soup = BeautifulSoup(html.text, 'html.parser')
-    print(soup)
     results = []
     try:
-        lig_events = soup.find_all('div', class_='table__match-title-text')
-        print(lig_events)
+        lig_events = soup.find_all('span', class_="selection-link active-selection" )
+        name_of_games = soup.find_all('span', class_='name')
+        print(len(name_of_games))
+        for i in range(len(name_of_games)*2):
+            kf = soup.find_all('span', class_="selection-link active-selection" )[i].get_text(strip=True)
+            print(kf)
+
         '''for i in range(len(lig_events)):
             lig_event = soup.find_all('a', class_='event-info-label')[i].get_text(strip=True)
             if lig_event:
