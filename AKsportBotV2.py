@@ -39,13 +39,14 @@ async def show_csv():
         for row in reader:
             show = str(row['Команда 1']) + ' - ' + str(row['Команда 2']) + '\n' + str(row['Кэф 1'])[1:] + '  vs  ' + str(row['Кэф 2'])[1:] + '\n' + str(row['Время'])
             await bot.send_message(894140712, show)
+        await bot.send_message(894140712, "Чего изволите?", reply_markup=kb.greet_kb)
 
 
 async def del_csv():
     await bot.send_message(894140712, 'Удаляю CSV файл..')
     path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'games.csv')
     os.remove(path)
-    await bot.send_message(894140712, 'Для добавления новых данных\nНажмите кнопку "Сканирование"')
+    await bot.send_message(894140712, 'Для добавления новых данных\nНажмите кнопку "Сканирование"', reply_markup=kb.greet_kb)
 
 
 async def start_scan():
