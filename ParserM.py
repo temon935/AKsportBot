@@ -132,6 +132,11 @@ def file_work(interesting_results):
             pass
 
 
+def upd_csv():
+    a1 = get_data_for_csv(get_html(URL1))
+    save_file(a1, FILE)
+
+
 def start():
     try:
         a = get_live_data(get_html(URL2))

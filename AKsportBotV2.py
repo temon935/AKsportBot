@@ -28,7 +28,7 @@ async def callback_btn1(callback_query: types.CallbackQuery):
     if callback_query.data == '1':
         await start_scan()
     elif callback_query.data == '2':
-        await del_csv()
+        await upd_csv()
     elif callback_query.data == '3':
         await show_csv()
 
@@ -43,12 +43,17 @@ async def show_csv():
         await bot.send_message(894140712, "Чего изволите?", reply_markup=kb.greet_kb)
 
 
-async def del_csv():
-    await bot.send_message(894140712, 'Удаляю CSV файл..')
+async def create_csv():
+    ParserM.upd_csv()
+
+
+async def upd_csv():
+    await bot.send_message(894140712, 'Обновление...')
     path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'games.csv')
     os.remove(path)
-    await bot.send_message(894140712, 'Для добавления новых данных\nНажмите кнопку "Сканирование"',
-                           reply_markup=kb.greet_kb)
+    await create_csv()
+    await bot.send_message(894140712, 'Обновление завершено')
+    await show_csv()
 
 
 async def start_scan():
@@ -56,7 +61,7 @@ async def start_scan():
         loop = asyncio.get_event_loop()
         loop.create_task(scan(30))
 
-    except TimeoutError:
+    except asyncio.exceptions.TimeoutError:
         await bot.send_message(894140712, 'ЯСТРЕБ СБИТ!!!11\nКОД КРАСНЫЙ!')
         await bot.send_message(894140712, 'ПОВТОРЯЮ, ЯСТРЕБ СБИТ!!!11\nКОД КРАСНЫЙ!\nКАК СЛЫШНО, ПРИЕМ!')
         time.sleep(30)
